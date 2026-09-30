@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MS Prime Wealth — Planejamento patrimonial</title>
+<meta name="description" content="Multi Family Office independente. Construa mais que patrimônio. Construa legado.">
+<link rel="icon" href="icone.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          navy: { DEFAULT: '#0f1b3d', deep: '#0a1230', up: '#17264f', line: '#243463' },
+          brass: { DEFAULT: '#c8a46a', soft: '#e3cc9f', deep: '#8f6d3a' },
+          mist: '#e8ecf4',
+        },
+        fontFamily: {
+          display: ['Sora', 'sans-serif'],
+          body: ['"Hanken Grotesk"', 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+<style>
+  :root{
+    --navy:#0f1b3d; --navy-deep:#0a1230; --navy-up:#17264f; --line:rgba(255,255,255,.12);
+    --brass:#c8a46a; --brass-soft:#e3cc9f; --mist:#e8ecf4; --ink:#0f1b3d;
+    --spring:cubic-bezier(.34,1.56,.64,1); --out:cubic-bezier(.16,1,.3,1);
+    --s1:8px; --s2:16px; --s3:24px; --s4:40px; --s5:64px; --s6:104px; --s7:152px;
+    --gutter:clamp(20px,5vw,72px);
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--navy);color:#fff;font-family:'Hanken Grotesk',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.07;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+  html body :is(h1,h2,h3),.display{font-family:'Sora',sans-serif;letter-spacing:-.03em;line-height:1.04;font-weight:600;margin:0}
+  p{margin:0}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  .wrap{padding-left:var(--gutter);padding-right:var(--gutter);max-width:1440px;margin:0 auto}
+  .eyebrow{font-family:'Sora';font-size:12.5px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";width:9px;height:9px;background:currentColor;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%)}
+
+  /* ---------- buttons ---------- */
+  .btn{--bg:var(--brass);--fg:var(--navy);position:relative;display:inline-flex;align-items:center;gap:12px;padding:15px 22px 15px 26px;border-radius:999px;background:var(--bg);color:var(--fg);
+    font-family:'Sora';font-weight:600;font-size:15px;letter-spacing:-.01em;cursor:pointer;border:0;
+    box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 10px 30px -12px rgba(200,164,106,.55),0 2px 6px -2px rgba(10,18,48,.4);
+    transition:transform .45s var(--spring),box-shadow .45s var(--out),opacity .3s}
+  .btn .arr{width:28px;height:28px;border-radius:50%;background:var(--fg);color:var(--bg);display:grid;place-items:center;transition:transform .5s var(--spring)}
+  .btn:hover{transform:translateY(-2px)}
+  .btn:hover .arr{transform:rotate(-45deg) scale(1.06)}
+  .btn:active{transform:translateY(0) scale(.97)}
+  .btn:focus-visible,.ghost:focus-visible,.nav a:focus-visible,.drag:focus-visible,.foot a:focus-visible,.logo-link:focus-visible{outline:2px solid var(--brass-soft);outline-offset:4px}
+  .ghost{display:inline-flex;align-items:center;gap:10px;padding:14px 4px;font-family:'Sora';font-weight:500;font-size:15px;color:#fff;position:relative}
+  .ghost::after{content:"";position:absolute;left:4px;right:4px;bottom:8px;height:1px;background:currentColor;transform-origin:left;transform:scaleX(.35);transition:transform .5s var(--out)}
+  .ghost:hover::after{transform:scaleX(1)}
+  .ghost:active{opacity:.7}
+
+  /* ---------- header ---------- */
+  .top{position:fixed;inset:0 0 auto 0;z-index:50;padding:14px var(--gutter)}
+  .top-in{max-width:1440px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:10px 12px 10px 18px;border-radius:999px;
+    background:rgba(10,18,48,.92);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border:1px solid rgba(255,255,255,.08);
+    box-shadow:0 20px 40px -24px rgba(3,8,26,.8)}
+  .logo-link{display:block;border-radius:8px;transition:opacity .3s}
+  .logo-link:hover{opacity:.85}.logo-link:active{opacity:.7}
+  .logo-link img{height:40px;width:auto}
+  .nav{display:flex;gap:6px}
+  .nav a{font-family:'Sora';font-size:14px;padding:9px 14px;border-radius:999px;color:rgba(255,255,255,.78);transition:opacity .3s,transform .4s var(--spring);position:relative}
+  .nav a::before{content:"";position:absolute;inset:0;border-radius:inherit;background:rgba(255,255,255,.08);opacity:0;transform:scale(.85);transition:opacity .3s,transform .45s var(--spring)}
+  .nav a:hover{color:#fff}.nav a:hover::before{opacity:1;transform:scale(1)}
+  .nav a:active{transform:scale(.96)}
+  .top .btn{padding:11px 14px 11px 20px;font-size:14px}.top .btn .arr{width:24px;height:24px}
+  @media (max-width:980px){.nav{display:none}}
+  @media (max-width:520px){.top .btn .lbl{display:none}.top .btn{padding:10px}.logo-link img{height:28px}}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;overflow:hidden;isolation:isolate}
+  .hero-bg{position:absolute;inset:0;z-index:-2}
+  .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:70% 60%;transform:scale(1.06);animation:heroZoom 2.6s var(--out) forwards}
+  .hero-bg::before{content:"";position:absolute;inset:0;background:var(--navy);mix-blend-mode:multiply;opacity:.55;z-index:1}
+  .hero-bg::after{content:"";position:absolute;inset:0;z-index:2;background:
+      radial-gradient(60% 55% at 72% 62%,rgba(200,164,106,.0) 0%,rgba(15,27,61,.35) 60%,rgba(15,27,61,.85) 100%),
+      linear-gradient(90deg,rgba(10,18,48,.96) 0%,rgba(15,27,61,.82) 38%,rgba(15,27,61,.25) 70%,rgba(15,27,61,.55) 100%),
+      linear-gradient(0deg,rgba(10,18,48,1) 0%,rgba(10,18,48,.6) 22%,rgba(10,18,48,0) 50%)}
+  @keyframes heroZoom{to{transform:scale(1)}}
+  .hero-grid{flex:1;display:grid;grid-template-columns:1.05fr 1fr;align-items:center;gap:var(--s4);padding-top:128px;padding-bottom:var(--s4)}
+  .hero h1{font-size:clamp(40px,5.1vw,80px);font-weight:600}
+  .hero h1 .l{display:block;overflow:hidden;padding-bottom:.06em}
+  .hero h1 .l span{display:block;white-space:nowrap;transform:translateY(105%);animation:rise 1.2s var(--out) forwards}
+  .hero h1 .l:nth-child(2) span{animation-delay:.12s}
+  .hero h1 .l:nth-child(3) span{animation-delay:.24s;color:var(--brass-soft)}
+  @keyframes rise{to{transform:none}}
+  .fade{opacity:0;transform:translateY(14px);animation:fadeUp 1s var(--out) forwards}
+  @keyframes fadeUp{to{opacity:1;transform:none}}
+  .hero .lead{font-size:clamp(17px,1.4vw,19px);color:rgba(255,255,255,.82);max-width:520px;margin-top:var(--s3)}
+  .hero .ctas{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s3);margin-top:var(--s4)}
+  .mark-wrap{position:relative;aspect-ratio:1/1;width:100%;max-width:560px;justify-self:end;display:grid;place-items:center}
+  .mark-wrap::before{content:"";position:absolute;inset:8%;border-radius:50%;background:radial-gradient(circle at 55% 40%,rgba(227,204,159,.30),rgba(200,164,106,.07) 50%,transparent 70%);filter:blur(12px);z-index:-1}
+  .mark-wrap::after{content:"";position:absolute;inset:6%;border-radius:50%;border:1px solid rgba(227,204,159,.16);
+    box-shadow:inset 0 0 80px rgba(79,108,190,.12)}
+  .mark{width:66%;height:auto;overflow:visible;filter:drop-shadow(0 30px 40px rgba(3,8,26,.55)) drop-shadow(0 0 1px rgba(255,255,255,.2))}
+  .mark .stem{transform-box:fill-box;transform-origin:bottom;transform:scaleY(0);animation:grow 1.1s var(--out) .35s forwards}
+  .mark .bowl{transform-box:fill-box;transform-origin:left center;opacity:0;transform:translateX(-14px);animation:slideIn 1.1s var(--out) .6s forwards}
+  .mark .star-g{transform-box:fill-box;transform-origin:center;opacity:0;transform:scale(.2) rotate(-90deg);animation:starIn 1.3s var(--spring) .95s forwards}
+  .mark .star{transform-box:fill-box;transform-origin:center;animation:turn 24s linear 2.3s infinite}
+  .mark .halo{transform-box:fill-box;transform-origin:center;opacity:0;animation:haloIn 1.6s var(--out) 1.1s forwards,breathe 5s ease-in-out 2.7s infinite}
+  @keyframes grow{to{transform:scaleY(1)}}
+  @keyframes slideIn{to{opacity:1;transform:none}}
+  @keyframes starIn{to{opacity:1;transform:none}}
+  @keyframes turn{to{transform:rotate(360deg)}}
+  @keyframes haloIn{to{opacity:.9}}
+  @keyframes breathe{50%{transform:scale(1.18);opacity:.55}}
+  .disclaimer{position:relative;border-top:1px solid var(--line);padding:var(--s3) 0 var(--s4)}
+  .disclaimer p{font-size:15px;line-height:1.65;color:rgba(255,255,255,.8);max-width:1180px}
+  .disclaimer p + p{margin-top:8px}
+  .disclaimer a{color:var(--brass-soft);border-bottom:1px solid rgba(227,204,159,.4);transition:opacity .3s}
+  .disclaimer a:hover{opacity:.8}.disclaimer a:active{opacity:.6}
+  .disclaimer a:focus-visible{outline:2px solid var(--brass-soft);outline-offset:3px}
+  @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr;padding-top:112px;gap:0}
+    .mark-wrap{justify-self:center;max-width:360px;margin-top:var(--s4)}
+  }
+
+  /* ---------- drag loops ---------- */
+  .drag{position:relative;overflow:hidden;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+  .drag.is-dragging{cursor:grabbing}
+  .track{display:flex;width:max-content;will-change:transform}
+  .drag img{-webkit-user-drag:none;pointer-events:none}
+
+  .values{background:var(--brass);color:var(--navy);padding:26px 0;position:relative;z-index:2;
+    box-shadow:0 -30px 60px -40px rgba(200,164,106,.6)}
+  .values .item{display:flex;align-items:center;gap:36px;padding-right:36px;font-family:'Sora';font-weight:600;font-size:clamp(38px,5.5vw,76px);letter-spacing:-.035em;line-height:1;white-space:nowrap}
+  .values .item i{width:.42em;height:.42em;background:var(--navy);display:block;clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%);font-style:normal}
+  .values .item .o{color:transparent;-webkit-text-stroke:1.5px var(--navy)}
+
+  /* ---------- sobre ---------- */
+  .sobre{background:var(--mist);color:var(--ink);padding:var(--s7) 0 var(--s6);position:relative;overflow:hidden}
+  .sobre::before{content:"";position:absolute;inset:0;background:radial-gradient(50% 60% at 100% 0%,rgba(200,164,106,.18),transparent 70%),radial-gradient(40% 50% at 0% 100%,rgba(15,27,61,.1),transparent 70%);pointer-events:none}
+  .sobre-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:var(--s5);align-items:start;position:relative}
+  .sobre h2{font-size:clamp(34px,4.4vw,64px)}
+  .sobre .eyebrow{color:#8f6d3a}
+  .sobre .txt{font-size:18px;color:#3b4668;max-width:600px}
+  .mv{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4);margin-top:var(--s5);padding-top:var(--s4);border-top:1px solid rgba(15,27,61,.14)}
+  .mv h3{font-size:14px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#8f6d3a;margin-bottom:12px}
+  .mv p{color:#3b4668;font-size:16.5px}
+  .photo{position:relative;border-radius:28px;overflow:hidden;isolation:isolate;
+    box-shadow:0 2px 4px rgba(15,27,61,.06),0 24px 48px -20px rgba(15,27,61,.35),0 60px 90px -50px rgba(15,27,61,.45)}
+  .photo img{width:100%;height:100%;object-fit:cover}
+  .photo .tint{position:absolute;inset:0;mix-blend-mode:multiply;background:var(--tint,#0f1b3d);opacity:.45}
+  .photo .shade{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.6),rgba(0,0,0,0) 55%)}
+  .sobre .photo{aspect-ratio:4/5}.sobre .photo .tint{opacity:.22}.sobre .portrait img{object-position:50% 18%}.sobre .portrait .shade{background:linear-gradient(to top,rgba(10,18,48,.78),rgba(10,18,48,0) 38%)}
+  .banker{position:absolute;left:var(--s3);right:var(--s3);bottom:var(--s3);color:#fff;z-index:2}
+  .banker .n{font-family:'Sora';font-weight:600;font-size:24px;letter-spacing:-.02em;line-height:1.2}
+  .banker .r{font-size:14.5px;color:rgba(255,255,255,.8)}
+  .facts{margin-top:var(--s4);display:grid;gap:0}
+  .fact{display:grid;grid-template-columns:150px 1fr;gap:var(--s3);align-items:baseline;padding:var(--s3) 0;border-bottom:1px solid rgba(15,27,61,.14)}
+  .fact:first-child{border-top:1px solid rgba(15,27,61,.14)}
+  .fact b{font-family:'Sora';font-weight:600;font-size:40px;letter-spacing:-.04em;line-height:1;color:var(--navy)}
+  .fact b small{font-size:17px;letter-spacing:-.01em;font-weight:500;margin-left:4px;color:#8f6d3a}
+  .fact span{color:#3b4668;font-size:16.5px}
+  @media (max-width:900px){.sobre-grid{grid-template-columns:1fr}.mv{grid-template-columns:1fr}.sobre .photo{aspect-ratio:4/3}.sobre .photo.portrait{aspect-ratio:4/5}.fact{grid-template-columns:110px 1fr}.fact b{font-size:32px}}
+
+  /* ---------- estratégia (colour swap on drag) ---------- */
+  .estr{position:relative;padding:var(--s6) 0 var(--s6);overflow:hidden;isolation:isolate}
+  .estr .layer{position:absolute;inset:0;z-index:-1;opacity:0;transition:opacity 1.1s var(--out)}
+  .estr .layer.on{opacity:1}
+  .estr .layer::after{content:"";position:absolute;inset:0;background:radial-gradient(60% 70% at 85% 30%,rgba(255,255,255,.08),transparent 60%),radial-gradient(50% 60% at 0% 100%,rgba(0,0,0,.35),transparent 70%)}
+  .estr-head{display:grid;grid-template-columns:1fr auto;gap:var(--s4);align-items:end}
+  .estr h2{font-size:clamp(36px,5vw,76px);max-width:900px}
+  .estr .eyebrow{color:var(--brass-soft)}
+  .estr .intro{color:rgba(255,255,255,.78);max-width:520px;font-size:17.5px;margin-top:var(--s3)}
+  .readout{min-width:280px;text-align:right}
+  .readout .k{font-family:'Sora';font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+  .readout .v{font-family:'Sora';font-weight:600;font-size:22px;letter-spacing:-.02em;margin-top:6px;transition:opacity .4s}
+  .dots{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
+  .dots span{width:28px;height:4px;border-radius:4px;background:rgba(255,255,255,.22);transform-origin:left;transition:background .4s,transform .5s var(--spring)}
+  .dots span.on{background:var(--brass-soft);transform:scaleX(1.5)}
+  .cards{margin-top:var(--s5);padding:var(--s2) 0 var(--s3)}
+  .card{width:clamp(290px,31vw,440px);margin-right:var(--s3);flex:none;border-radius:26px;overflow:hidden;position:relative;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 30px 60px -30px rgba(0,0,0,.6),0 8px 20px -10px rgba(0,0,0,.35);transition:transform .7s var(--spring),opacity .6s}
+  .card:not(.act){transform:scale(.94);opacity:.72}
+  .card .photo{border-radius:0;aspect-ratio:16/11;box-shadow:none}
+  .card .photo .tint{opacity:.35}
+  .card .body{padding:var(--s3) var(--s3) 28px}
+  .card h3{font-size:25px;letter-spacing:-.025em;line-height:1.15}
+  .card p{color:rgba(255,255,255,.8);margin-top:10px;font-size:16px;line-height:1.6}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:var(--s2)}
+  .tags span{font-size:13px;font-family:'Sora';padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.9)}
+  .drag-note{display:flex;align-items:center;gap:10px;margin-top:var(--s3);font-family:'Sora';font-size:13px;letter-spacing:.06em;color:rgba(255,255,255,.62)}
+  @media (max-width:900px){.estr-head{grid-template-columns:1fr}.readout{text-align:left}.dots{justify-content:flex-start}.card{width:80vw}}
+
+  /* ---------- para quem ---------- */
+  .quem{background:var(--navy-deep);padding:var(--s6) 0;position:relative;overflow:hidden;isolation:isolate}
+  .quem::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(45% 60% at 10% 0%,rgba(79,108,190,.22),transparent 70%),radial-gradient(40% 50% at 95% 100%,rgba(200,164,106,.14),transparent 70%)}
+  .quem-head{display:grid;grid-template-columns:1.2fr .8fr;gap:var(--s4);align-items:end}
+  .quem h2{font-size:clamp(34px,4.6vw,68px)}
+  .quem .eyebrow{color:var(--brass-soft)}
+  .quem .side{color:rgba(255,255,255,.78);font-size:17px}
+  .quem .side strong{color:#fff;font-weight:600}
+  .strip{margin-top:var(--s5);padding:var(--s4) 0 var(--s5)}
+  .pc{flex:none;width:clamp(230px,22vw,300px);margin-right:28px;padding:12px 12px 18px;border-radius:20px;background:#f4f6fb;color:var(--navy);
+    box-shadow:0 1px 0 rgba(255,255,255,.8) inset,0 30px 50px -28px rgba(0,0,0,.7),0 10px 18px -12px rgba(0,0,0,.4);transform:rotate(var(--r,0deg))}
+  .pc .photo{aspect-ratio:4/5;border-radius:12px;box-shadow:none}
+  .pc .photo .tint{background:var(--tint);opacity:.28}
+  .pc .cap{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-top:14px;padding:0 4px}
+  .pc .cap b{font-family:'Sora';font-weight:600;font-size:18px;letter-spacing:-.02em;line-height:1.2}
+  .pc .cap i{font-style:normal;font-size:13px;color:#5a6688;white-space:nowrap}
+  @media (max-width:900px){.quem-head{grid-template-columns:1fr}}
+
+  /* ---------- como funciona ---------- */
+  .como{background:#f4f6fb;color:var(--ink);padding:var(--s6) 0;position:relative;overflow:hidden}
+  .como::before{content:"";position:absolute;right:-10%;top:-30%;width:60%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(200,164,106,.16),transparent 65%)}
+  .como h2{font-size:clamp(34px,4.4vw,62px);max-width:760px}
+  .como .eyebrow{color:#8f6d3a}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s3);margin-top:var(--s5);position:relative}
+  .step{background:#fff;border-radius:24px;padding:var(--s4) var(--s3) var(--s4);position:relative;
+    box-shadow:0 1px 2px rgba(15,27,61,.05),0 20px 40px -26px rgba(15,27,61,.35);border:1px solid rgba(15,27,61,.06)}
+  .step .n{font-family:'Sora';font-weight:600;font-size:14px;letter-spacing:.1em;color:#8f6d3a}
+  .step h3{font-size:22px;letter-spacing:-.02em;line-height:1.2;margin-top:var(--s5)}
+  .step p{color:#4a5577;margin-top:12px;font-size:16px;line-height:1.65}
+  .step::after{content:"";position:absolute;top:var(--s4);right:var(--s3);width:36px;height:36px;border-radius:50%;background:var(--navy);
+    -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><path d='M18 6l2.6 9.4L30 18l-9.4 2.6L18 30l-2.6-9.4L6 18l9.4-2.6z'/></svg>") center/100% no-repeat;opacity:.12}
+  @media (max-width:1000px){.steps{grid-template-columns:1fr 1fr}}
+  @media (max-width:600px){.steps{grid-template-columns:1fr}.step h3{margin-top:var(--s3)}}
+
+  /* ---------- CTA ---------- */
+  .cta{position:relative;overflow:hidden;isolation:isolate;padding:var(--s7) 0;min-height:80vh;display:flex;align-items:center}
+  .cta .bg{position:absolute;inset:0;z-index:-1}
+  .cta .bg img{width:100%;height:100%;object-fit:cover;object-position:60% 55%}
+  .cta .bg::before{content:"";position:absolute;inset:0;background:var(--navy);mix-blend-mode:multiply;opacity:.5}
+  .cta .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.6),rgba(0,0,0,0) 60%),linear-gradient(90deg,rgba(10,18,48,.9),rgba(10,18,48,.2) 70%)}
+  .cta h2{font-size:clamp(44px,7vw,112px);max-width:980px}
+  .cta h2 em{font-style:normal;color:var(--brass-soft)}
+  .cta p{font-size:18px;color:rgba(255,255,255,.85);max-width:540px;margin-top:var(--s3)}
+  .cta .btn{margin-top:var(--s4)}
+
+  /* ---------- footer ---------- */
+  .foot{background:var(--navy-deep);padding:var(--s5) 0 var(--s4);border-top:1px solid var(--line)}
+  .foot-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:var(--s4);align-items:start}
+  .foot img{height:44px;width:auto}
+  .foot h4{font-family:'Sora';font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:500;margin:0 0 12px}
+  .foot a,.foot .t{display:block;font-size:16px;color:rgba(255,255,255,.88);padding:3px 0;transition:opacity .3s,transform .4s var(--spring)}
+  .foot a:hover{opacity:.75;transform:translateX(3px)}.foot a:active{opacity:.55}
+  .foot .legal{margin-top:var(--s5);padding-top:var(--s3);border-top:1px solid var(--line);font-size:14.5px;line-height:1.65;color:rgba(255,255,255,.68)}
+  .foot .legal p + p{margin-top:8px}
+  @media (max-width:900px){.foot-grid{grid-template-columns:1fr}}
+
+  @media (prefers-reduced-motion:reduce){
+    .hero-bg img{animation:none;transform:none}
+    .hero h1 .l span{transform:none;opacity:0;animation:fadeIn .9s ease forwards}
+    .fade{transform:none}
+    .mark .star{animation-duration:60s}
+  }
+  @keyframes fadeIn{to{opacity:1}}
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="top">
+  <div class="top-in">
+    <a href="#inicio" class="logo-link" aria-label="MS Prime Wealth — início"><img src="logo-branco.svg" alt="MS Prime Wealth"></a>
+    <nav class="nav" aria-label="Principal">
+      <a href="#sobre">Sobre</a>
+      <a href="#estrategia">Estratégia</a>
+      <a href="#para-quem">Para quem</a>
+      <a href="#como-funciona">Como funciona</a>
+    </nav>
+    <a class="btn wa" href="#" target="_blank" rel="noopener"><span class="lbl">Agendar conversa</span><span class="arr"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+  </div>
+</header>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="hero" id="inicio">
+  <div class="hero-bg" aria-hidden="true"><img src="img/veleiro.jpg" alt=""></div>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow fade" style="color:var(--brass-soft);animation-delay:.05s">Multi Family Office independente</span>
+      <h1 style="margin-top:22px">
+        <span class="l"><span>Construa mais</span></span>
+        <span class="l"><span>que patrimônio.</span></span>
+        <span class="l"><span>Construa legado.</span></span>
+      </h1>
+      <p class="lead fade" style="animation-delay:.45s">Transformamos objetivos financeiros em estratégias patrimoniais personalizadas — orientando cada cliente na construção, alavancagem e proteção do seu patrimônio.</p>
+      <div class="ctas fade" style="animation-delay:.6s">
+        <a class="btn wa" href="#" target="_blank" rel="noopener">Agendar conversa<span class="arr"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        <a class="ghost" href="#estrategia">Conheça a estratégia</a>
+      </div>
+    </div>
+    <div class="mark-wrap fade" style="animation-delay:.2s" aria-hidden="true">
+      <svg class="mark" viewBox="0 0 100 100">
+        <defs>
+          <linearGradient id="mk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#c9d3ea"/></linearGradient>
+          <linearGradient id="st" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3e2bd"/><stop offset="1" stop-color="#c8a46a"/></linearGradient>
+          <radialGradient id="hl"><stop offset="0" stop-color="#e3cc9f" stop-opacity=".55"/><stop offset="1" stop-color="#e3cc9f" stop-opacity="0"/></radialGradient>
+        </defs>
+        <path class="stem" fill="url(#mk)" d="M8 6 H30 V94 H8 Z"/>
+        <path class="bowl" fill="url(#mk)" fill-rule="evenodd" d="M34 6 H56 A31 31 0 0 1 56 68 H34 V54 H56 A17 17 0 0 0 56 20 H34 Z"/>
+        <circle class="halo" cx="56" cy="37" r="15" fill="url(#hl)"/>
+        <g class="star-g"><path class="star" fill="url(#st)" d="M56 23.5 L59.2 33.8 L69.5 37 L59.2 40.2 L56 50.5 L52.8 40.2 L42.5 37 L52.8 33.8 Z"/></g>
+      </svg>
+    </div>
+  </div>
+  <div class="wrap disclaimer">
+    <p>A MS Prime Wealth integra o ecossistema da AWT Alliance S.A. e atua em educação financeira e planejamento financeiro e patrimonial. Serviços sujeitos a regulação são prestados pelas empresas do AWT Group devidamente habilitadas para cada atividade. A administração e gestão de carteiras de valores mobiliários é realizada pela AWT Consultoria e Administração de Valores Mobiliários Ltda., CNPJ 35.137.445/0001-00, registrada perante a CVM.</p>
+    <p>Consulte os Avisos Legais e Regulatórios do AWT Group: <a href="https://www.awtgroup.com.br" target="_blank" rel="noopener">www.awtgroup.com.br</a></p>
+  </div>
+</section>
+
+<!-- ============ VALUES (drag loop) ============ -->
+<section class="values drag" data-loop data-speed="-0.55" aria-label="Nossos valores — arraste para navegar" tabindex="0">
+  <div class="track">
+    <div class="item">Ética<i></i><span class="o">Transparência</span><i></i>Estratégia<i></i><span class="o">Segurança</span><i></i>Excelência<i></i></div>
+  </div>
+</section>
+
+<!-- ============ SOBRE ============ -->
+<section class="sobre" id="sobre">
+  <div class="wrap sobre-grid">
+    <div>
+      <span class="eyebrow">Sobre a MS Prime</span>
+      <h2 style="margin-top:20px">Estratégia patrimonial com rumo definido.</h2>
+      <p class="txt" style="margin-top:28px">Somos um Multi Family Office independente para empresários, profissionais liberais, produtores rurais e brasileiros no exterior que já geram boa renda — ou já construíram patrimônio — e precisam de uma estratégia clara para decidir com segurança.</p>
+      <div class="facts">
+        <div class="fact"><b>8<small>anos</small></b><span>dedicados ao planejamento patrimonial de famílias e empresários.</span></div>
+        <div class="fact"><b>6<small>meses</small></b><span>de atuação em alavancagem patrimonial por meio do consórcio.</span></div>
+      </div>
+      <div class="mv">
+        <div><h3>Missão</h3><p>Transformar objetivos financeiros em estratégias patrimoniais personalizadas, orientando cada cliente na construção, alavancagem e proteção do seu patrimônio.</p></div>
+        <div><h3>Visão</h3><p>Ser reconhecida nacionalmente como referência em estratégia patrimonial, ajudando pessoas, famílias e empresários com inteligência e visão de longo prazo.</p></div>
+      </div>
+    </div>
+    <div class="photo portrait">
+      <img src="img/yute.jpg" alt="Yute Cecília Ataídes Fernandes, banker da MS Prime Wealth">
+      <div class="shade"></div>
+      <div class="banker">
+        <div class="n">Yute Cecília Ataídes Fernandes</div>
+        <div class="r">Banker · Planejamento patrimonial</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ESTRATÉGIA (drag + colour swap) ============ -->
+<section class="estr" id="estrategia">
+  <div class="layer on" style="background:#0e3440"></div>
+  <div class="layer" style="background:#3a1a2c"></div>
+  <div class="layer" style="background:#16392b"></div>
+  <div class="wrap estr-head">
+    <div>
+      <span class="eyebrow">Especialidades</span>
+      <h2 style="margin-top:20px">Uma única estratégia de planejamento.</h2>
+      <p class="intro">Três frentes que conversam entre si, desenhadas a partir dos seus objetivos — para construir, alavancar e proteger o que é seu.</p>
+    </div>
+    <div class="readout" aria-live="polite">
+      <div class="k">Em foco</div>
+      <div class="v" id="readV">Planejamento para investimentos</div>
+      <div class="dots"><span class="on"></span><span></span><span></span></div>
+    </div>
+  </div>
+  <div class="cards drag" id="cards" data-loop data-speed="-0.5" tabindex="0" aria-label="Especialidades — arraste para navegar">
+    <div class="track" style="padding-left:var(--gutter)">
+      <article class="card" data-i="0">
+        <div class="photo" style="--tint:#0e3440"><img src="img/ponte.jpg" alt="Ponte de pedra em arcos sobre água calma"><div class="tint"></div><div class="shade"></div></div>
+        <div class="body"><h3>Planejamento para investimentos</h3><p>Estratégias para acumular, proteger e multiplicar seu patrimônio.</p><div class="tags"><span>Renda fixa</span><span>Acúmulo</span><span>Proteção</span></div></div>
+      </article>
+      <article class="card" data-i="1">
+        <div class="photo" style="--tint:#3a1a2c"><img src="img/predio.jpg" alt="Fachada de edifício residencial moderno"><div class="tint"></div><div class="shade"></div></div>
+        <div class="body"><h3>Imobiliário</h3><p>Planejamento para aquisição de imóveis, consórcios e financiamentos.</p><div class="tags"><span>Imóveis</span><span>Consórcio</span><span>Alavancagem</span></div></div>
+      </article>
+      <article class="card" data-i="2">
+        <div class="photo" style="--tint:#16392b"><img src="img/geracoes.jpg" alt="Avô e neto caminhando no mar"><div class="tint"></div><div class="shade"></div></div>
+        <div class="body"><h3>Previdência</h3><p>Estratégias para conquistar eficiência tributária e sucessória.</p><div class="tags"><span>Eficiência tributária</span><span>Sucessão</span></div></div>
+      </article>
+    </div>
+  </div>
+  <div class="wrap drag-note"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9h12M6 6L3 9l3 3M12 6l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Arraste os cartões — a cor da seção acompanha cada frente</div>
+</section>
+
+<!-- ============ PARA QUEM ============ -->
+<section class="quem" id="para-quem">
+  <div class="wrap quem-head">
+    <div>
+      <span class="eyebrow">Para quem</span>
+      <h2 style="margin-top:20px">Para quem já constrói — e quer proteger — o que conquistou.</h2>
+    </div>
+    <p class="side">Atendemos quem tem boa geração de renda ou patrimônio já construído e deseja crescer, acessar capital ou proteger o que construiu. <strong>Patrimônios a partir de R$&nbsp;500&nbsp;mil.</strong></p>
+  </div>
+  <div class="strip drag" data-loop data-speed="-0.4" tabindex="0" aria-label="Perfis atendidos — arraste para navegar">
+    <div class="track">
+      <figure class="pc" style="--r:-2.5deg;margin-top:10px"><div class="photo" style="--tint:#3b5bab"><img src="img/empresario.jpg" alt="Executivo caminhando em frente a edifício corporativo"><div class="tint"></div></div><figcaption class="cap"><b>Empresários</b><i>Empresa e família</i></figcaption></figure>
+      <figure class="pc" style="--r:2deg;margin-top:34px"><div class="photo" style="--tint:#2f6d73"><img src="img/medico.jpg" alt="Médico sorrindo em seu consultório"><div class="tint"></div></div><figcaption class="cap"><b>Profissionais liberais</b><i>Renda alta</i></figcaption></figure>
+      <figure class="pc" style="--r:-1.5deg;margin-top:0"><div class="photo" style="--tint:#6b7a2a"><img src="img/campo.jpg" alt="Vista aérea de lavoura de soja no Paraná"><div class="tint"></div></div><figcaption class="cap"><b>Produtores rurais</b><i>Safra e terra</i></figcaption></figure>
+      <figure class="pc" style="--r:2.5deg;margin-top:26px"><div class="photo" style="--tint:#a3563a"><img src="img/lisboa.jpg" alt="Vista de Lisboa com telhados e o rio Tejo"><div class="tint"></div></div><figcaption class="cap"><b>Brasileiros no exterior</b><i>Duas moedas</i></figcaption></figure>
+      <figure class="pc" style="--r:-2deg;margin-top:8px"><div class="photo" style="--tint:#8a4a6a"><img src="img/casal.jpg" alt="Casal abraçado ao pôr do sol"><div class="tint"></div></div><figcaption class="cap"><b>Famílias</b><i>Patrimônio construído</i></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMO FUNCIONA ============ -->
+<section class="como" id="como-funciona">
+  <div class="wrap">
+    <span class="eyebrow">Como funciona</span>
+    <h2 style="margin-top:20px">Do primeiro encontro ao plano em execução.</h2>
+    <div class="steps">
+      <div class="step"><span class="n">PASSO 1</span><h3>Conversa inicial</h3><p>Entendemos seus objetivos, sua família, sua empresa e o momento de vida em que você está.</p></div>
+      <div class="step"><span class="n">PASSO 2</span><h3>Diagnóstico patrimonial</h3><p>Mapeamos patrimônio, renda e estrutura tributária e sucessória para enxergar o ponto de partida.</p></div>
+      <div class="step"><span class="n">PASSO 3</span><h3>Plano personalizado</h3><p>Apresentamos a estratégia com metas claras para construir, alavancar e proteger o que é seu.</p></div>
+      <div class="step"><span class="n">PASSO 4</span><h3>Acompanhamento</h3><p>Revisões periódicas e contato próximo pelo WhatsApp para ajustar a rota sempre que a vida mudar.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta" id="contato">
+  <div class="bg" aria-hidden="true"><img src="img/veleiro.jpg" alt=""></div>
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--brass-soft)">Próximo passo</span>
+    <h2 style="margin-top:20px">Seu patrimônio merece <em>um rumo.</em></h2>
+    <p>Agende uma conversa com Yute Fernandes e saia com clareza sobre os próximos passos da sua estratégia patrimonial.</p>
+    <a class="btn wa" href="#" target="_blank" rel="noopener">Conversar pelo WhatsApp<span class="arr"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+  </div>
+</section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <img src="logo-branco.svg" alt="MS Prime Wealth">
+        <p style="margin-top:20px;color:rgba(255,255,255,.72);max-width:360px">Construa mais que patrimônio. Construa legado.</p>
+      </div>
+      <div>
+        <h4>Contato</h4>
+        <a class="wa" href="#" target="_blank" rel="noopener">+55 (31) 98218-7895</a>
+        <span class="t">yutefernandes@gmail.com</span>
+      </div>
+      <div>
+        <h4>Navegue</h4>
+        <a href="#sobre">Sobre</a>
+        <a href="#estrategia">Estratégia</a>
+        <a href="#para-quem">Para quem</a>
+        <a href="#como-funciona">Como funciona</a>
+      </div>
+    </div>
+    <div class="legal">
+      <p>A MS Prime Wealth integra o ecossistema da AWT Alliance S.A. e atua em educação financeira e planejamento financeiro e patrimonial. Serviços sujeitos a regulação são prestados pelas empresas do AWT Group devidamente habilitadas para cada atividade. A administração e gestão de carteiras de valores mobiliários é realizada pela AWT Consultoria e Administração de Valores Mobiliários Ltda., CNPJ 35.137.445/0001-00, registrada perante a CVM.</p>
+      <p>Consulte os Avisos Legais e Regulatórios do AWT Group: <a href="https://www.awtgroup.com.br" target="_blank" rel="noopener" style="display:inline;padding:0">www.awtgroup.com.br</a> · © 2026 MS Prime Wealth</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // WhatsApp links
+  const WA = 'https://wa.me/5531982187895?text=' + encodeURIComponent('Olá, Yute! Gostaria de agendar uma conversa sobre planejamento patrimonial.');
+  document.querySelectorAll('a.wa').forEach(a => a.href = WA);
+
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---------- Infinite drag loops ----------
+  class DragLoop {
+    constructor(el) {
+      this.el = el;
+      this.track = el.querySelector('.track');
+      this.speed = parseFloat(el.dataset.speed || 0) * (reduce ? 0.45 : 1);
+      this.snap = el.hasAttribute('data-snap');
+      this.onActive = null;
+      const originals = [...this.track.children];
+      this.count = originals.length;
+      // clone until the set covers the viewport comfortably, then 3 sets total
+      let sets = 1;
+      const minW = () => this.track.scrollWidth;
+      while (minW() < innerWidth * 1.2 && sets < 8) { originals.forEach(n => this.track.appendChild(this.clone(n))); sets++; }
+      this.perSet = this.track.children.length;
+      [...this.track.children].slice(0, this.perSet).forEach(n => this.track.appendChild(this.clone(n)));
+      [...this.track.children].slice(0, this.perSet).forEach(n => this.track.appendChild(this.clone(n)));
+      this.x = 0; this.v = 0; this.drag = false; this.target = null;
+      this.measure();
+      this.x = -this.setW;
+      addEventListener('resize', () => this.measure());
+      el.addEventListener('pointerdown', e => this.down(e));
+      addEventListener('pointermove', e => this.move(e), { passive: true });
+      addEventListener('pointerup', () => this.up());
+      addEventListener('pointercancel', () => this.up());
+      el.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+          e.preventDefault();
+          const dir = e.key === 'ArrowRight' ? -1 : 1;
+          if (this.snap) this.step(dir); else this.v += dir * 18;
+        }
+      });
+    }
+    clone(n) { const c = n.cloneNode(true); c.setAttribute('aria-hidden', 'true'); return c; }
+    measure() {
+      const kids = this.track.children;
+      this.items = [...kids].map(k => ({ el: k, left: k.offsetLeft, w: k.offsetWidth }));
+      this.setW = kids[this.perSet].offsetLeft - kids[0].offsetLeft;
+      this.pad = kids[0].offsetLeft;
+    }
+    down(e) {
+      if (e.button !== undefined && e.button !== 0) return;
+      this.drag = true; this.startX = this.target ?? this.x; this.target = null; this.v = 0;
+      this.lx = e.clientX; this.lt = performance.now(); this.moved = 0;
+      this.el.classList.add('is-dragging');
+    }
+    move(e) {
+      if (!this.drag) return;
+      const now = performance.now(), dx = e.clientX - this.lx, dt = Math.max(1, now - this.lt);
+      this.x += dx; this.v = dx / dt * 16; this.lx = e.clientX; this.lt = now; this.moved += Math.abs(dx);
+    }
+    up() {
+      if (!this.drag) return;
+      this.drag = false; this.el.classList.remove('is-dragging');
+      if (this.snap) {
+        // exactly one card per drag, in the drag direction
+        const cw = this.setW / this.perSet, d = this.x - this.startX;
+        const k = Math.round(-this.startX / cw) + (d < -40 ? 1 : d > 40 ? -1 : 0);
+        this.target = -k * cw;
+      }
+    }
+    nearest(x) {
+      // position where an item's left edge sits at the gutter
+      let best = null, bd = Infinity;
+      for (const it of this.items) {
+        const tx = -(it.left - this.pad);
+        const d = Math.abs(tx - x);
+        if (d < bd) { bd = d; best = tx; }
+      }
+      return best;
+    }
+    step(dir) {
+      const cur = this.target ?? this.nearest(this.x);
+      const i = this.items.findIndex(it => -(it.left - this.pad) === cur);
+      const n = this.items[Math.min(this.items.length - 1, Math.max(0, i - dir))];
+      this.target = -(n.left - this.pad);
+    }
+    wrap() {
+      if (this.x > -this.setW * 0.5) { this.x -= this.setW; if (this.target !== null) this.target -= this.setW; if (this.startX != null) this.startX -= this.setW; }
+      if (this.x < -this.setW * 2.5) { this.x += this.setW; if (this.target !== null) this.target += this.setW; if (this.startX != null) this.startX += this.setW; }
+    }
+    tick() {
+      if (!this.drag) {
+        if (this.target !== null) {
+          this.x += (this.target - this.x) * 0.12;
+          if (Math.abs(this.target - this.x) < 0.3) { this.x = this.target; }
+        } else {
+          this.x += this.v; this.v *= 0.94;
+          if (Math.abs(this.v) < 0.05) this.v = 0;
+          this.x += this.speed;
+        }
+      }
+      this.wrap();
+      this.track.style.transform = `translate3d(${this.x}px,0,0)`;
+      if (this.onActive) {
+        const anchor = -this.x + this.pad;
+        let best = 0, bd = Infinity;
+        this.items.forEach((it, i) => { const d = Math.abs(it.left - anchor); if (d < bd) { bd = d; best = i; } });
+        if (best !== this.active) { this.active = best; this.onActive(best, this.items[best].el); }
+      }
+    }
+  }
+
+  const loops = [...document.querySelectorAll('[data-loop]')].map(el => new DragLoop(el));
+  // block click-through after drags
+  document.querySelectorAll('[data-loop]').forEach((el, i) => el.addEventListener('click', e => { if (loops[i].moved > 6) e.preventDefault(); }, true));
+
+  // Estratégia: active card drives colour + readout
+  const cards = loops.find(l => l.el.id === 'cards');
+  const layers = document.querySelectorAll('.estr .layer');
+  const dots = document.querySelectorAll('.estr .dots span');
+  const readV = document.getElementById('readV');
+  const names = ['Planejamento para investimentos', 'Imobiliário', 'Previdência'];
+  cards.onActive = (idx, el) => {
+    const i = +el.dataset.i;
+    cards.items.forEach(it => it.el.classList.toggle('act', it.el === el));
+    layers.forEach((l, k) => l.classList.toggle('on', k === i));
+    dots.forEach((d, k) => d.classList.toggle('on', k === i));
+    readV.textContent = names[i];
+  };
+
+  (function loop() { loops.forEach(l => l.tick()); requestAnimationFrame(loop); })();
+</script>
+
+
+</body>
+</html>

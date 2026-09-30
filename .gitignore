@@ -1,0 +1,13 @@
+# Working files — not part of the deployed site
+temporary screenshots/
+Yute-FotoCorp.png
+foto-yute-*.png
+
+# Brand deliverables (kept locally, not published on the domain)
+*.pdf
+logo.png
+logo-branco.png
+logo.svg
+icone.png
+icone-branco.png
+icone-branco.svg
